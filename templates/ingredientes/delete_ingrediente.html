@@ -1,0 +1,21 @@
+<!-- Modal Eliminar Ingrediente -->
+{% for ingrediente in ingredientes %}
+    <form method="POST" action="{{ url_for('delete_ingrediente', id_ingrediente=ingrediente.id_ingrediente) }}" class="modal fade" id="deleteIngredientModal{{ ingrediente.id_ingrediente }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Ingrediente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro que deseas eliminar el ingrediente <strong>{{ ingrediente.nombre }}</strong>?</p>
+                    <p class="text-warning"><small>Esta acción es irreversible</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endfor %}

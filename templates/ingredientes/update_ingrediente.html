@@ -1,0 +1,61 @@
+{% block content %}
+<div class="container mt-4">
+
+    {% for ingrediente in ingredientes %}
+        <!-- Modal de Edición del ingrediente -->
+        <div class="modal fade" id="editIngredientModal{{ ingrediente.id_ingrediente }}" tabindex="-1" aria-labelledby="editIngredientModalLabel{{ ingrediente.id_ingrediente }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <form method="POST" action="{{ url_for('update_ingrediente', id_ingrediente=ingrediente.id_ingrediente) }}">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editIngredientModalLabel{{ ingrediente.id_ingrediente }}">Editar Ingrediente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" name="nombre" class="form-control" value="{{ ingrediente.nombre }}" required maxlength="50" />
+                                <div class="invalid-feedback">El nombre no puede exceder los 50 caracteres.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="grasas_Saturadas" class="form-label">Grasas Saturadas (g)</label>
+                                <input type="number" name="grasas_Saturadas" class="form-control" value="{{ ingrediente.grasas_Saturadas }}" step="0.01" min="0" max="999.99" required />
+                                <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="grasas_NO_Saturadas" class="form-label">Grasas No Saturadas (g)</label>
+                                <input type="number" name="grasas_NO_Saturadas" class="form-control" value="{{ ingrediente.grasas_NO_Saturadas }}" step="0.01" min="0" max="999.99" required />
+                                <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="carbohidratos" class="form-label">Carbohidratos (g)</label>
+                                <input type="number" name="carbohidratos" class="form-control" value="{{ ingrediente.carbohidratos }}" step="0.01" min="0" max="999.99" required />
+                                <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="azucar" class="form-label">Azúcar (g)</label>
+                                <input type="number" name="azucar" class="form-control" value="{{ ingrediente.azucar }}" step="0.01" min="0" max="999.99" required />
+                                <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="proteina" class="form-label">Proteína (g)</label>
+                                <input type="number" name="proteina" class="form-control" value="{{ ingrediente.proteina }}" step="0.01" min="0" max="999.99" required />
+                                <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Actualizar Ingrediente</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

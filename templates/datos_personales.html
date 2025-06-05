@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Datos Personales{% endblock %}
+{% block content %}
+<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet"/>
+<link href="{{ url_for('static', filename='css/form.css') }}" rel="stylesheet"/>
+
+<div class="contenedor-form">
+  <h1>Datos Personales</h1>
+  
+  {% if mensaje %}
+      <p>{{ mensaje }}</p>
+  {% endif %}
+  
+  <form method="POST" action="{{ url_for('datos_personales') }}" onsubmit="actualizarCalorias()">
+      <div>
+          <label for="altura">Altura (m):</label>
+          <input type="number" step="0.01" name="altura" id="altura" value="{{ datos.altura if datos else '' }}" required>
+      </div>
+
+      <div>
+          <label for="edad">Edad:</label>
+          <input type="number" name="edad" id="edad" value="{{ datos.edad if datos else '' }}" required>
+      </div>
+
+      <div>
+          <label for="genero">Género:</label>
+          <select name="genero" id="genero" required>
+              <option value="Masculino" {% if datos and datos.genero == 'Masculino' %}selected{% endif %}>Masculino</option>
+              <option value="Femenino" {% if datos and datos.genero == 'Femenino' %}selected{% endif %}>Femenino</option>
+              <option value="Otros" {% if datos and datos.genero == 'Otros' %}selected{% endif %}>Otros</option>
+          </select>
+      </div>
+
+      <div>
+          <label for="nivel_actividad">Nivel de Actividad:</label>
+          <select name="nivel_actividad" id="nivel_actividad" required>
+              <option value="1" {% if datos and datos.nivel_actividad == 1 %}selected{% endif %}>Bajo</option>
+              <option value="2" {% if datos and datos.nivel_actividad == 2 %}selected{% endif %}>Moderado</option>
+              <option value="3" {% if datos and datos.nivel_actividad == 3 %}selected{% endif %}>Alto</option>
+          </select>
+      </div>
+      
+      <div>
+        <label for="calorias_base">Calorías base:</label>
+        {% if datos is defined and datos.calorias_base is defined %}
+          <span id="calorias_base_display">{{ datos.calorias_base }}</span>
+        {% else %}
+          <span id="calorias_base_display">0</span>
+        {% endif %}
+      </div>
+
+      <div>
+          <input id="calorias_permitidas" name="calorias_permitidas" type="hidden" value="{{ datos.calorias_permitidas if datos else '' }}">
+          <input id="tipo_dieta" name="tipo_dieta" type="hidden" value="{{ datos.tipo_dieta if datos else '' }}">
+          <label for="tipo_dieta">Tipo de Dieta:</label>
+          <select id="tipoDietaSelector" onchange="actualizarCalorias()">
+            <option value="Mantenerse" {% if datos and datos.tipo_dieta == 'Mantenerse' %}selected{% endif %}>Mantenerse</option>
+            <option value="Bajar" {% if datos and datos.tipo_dieta == 'Bajar' %}selected{% endif %}>Bajar de peso</option>
+            <option value="Subir" {% if datos and datos.tipo_dieta == 'Subir' %}selected{% endif %}>Subir de peso</option>
+        </select>
+        
+          <label for="numero_Comidas">Número Comidas:</label>
+          <input type="number" min="1" max="5" required step="1" id="numero_Comidas" name="numero_Comidas" value="{{ datos.numero_Comidas if datos else '' }}">
+          <p>Calorías permitidas: <span id="calorias">{{ datos.calorias_permitidas if datos else '1000' }}</span></p>
+          
+          <script>
+              function actualizarCalorias() {
+                  const tipoDieta = document.getElementById("tipoDietaSelector").value;
+                  let caloriasBase = parseFloat(document.getElementById("calorias_base_display").textContent);
+                  if (isNaN(caloriasBase)) {
+                      caloriasBase = 1000;
+                  }
+                  let calorias = caloriasBase;
+
+                  if (tipoDieta === "Bajar") {
+                      calorias = caloriasBase - 400;
+                  } else if (tipoDieta === "Subir") {
+                      calorias = caloriasBase + 400;
+                  }
+
+                  document.getElementById("calorias").textContent = Math.round(calorias);
+                  document.getElementById("calorias_permitidas").value = calorias;
+                  document.getElementById("tipo_dieta").value = tipoDieta;
+              }
+          </script>
+      </div>
+
+      <div>
+          <button type="submit">Guardar</button>
+      </div>
+  </form>
+
+</div>
+{% endblock %}

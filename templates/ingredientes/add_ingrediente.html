@@ -1,0 +1,49 @@
+<!-- Modal Añadir Ingrediente -->
+<div id="addIngredientModal" class="modal fade" tabindex="-1" aria-labelledby="addIngredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_ingrediente') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Añadir ingrediente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required maxlength="50">
+                        <div class="invalid-feedback">El nombre no puede exceder los 50 caracteres.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="grasas_saturadas" class="form-label">Grasas Saturadas (g)</label>
+                        <input type="number" name="grasas_saturadas" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="grasas_no_saturadas" class="form-label">Grasas No Saturadas (g)</label>
+                        <input type="number" name="grasas_no_saturadas" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carbohidratos" class="form-label">Carbohidratos (g)</label>
+                        <input type="number" name="carbohidratos" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="azucar" class="form-label">Azúcar (g)</label>
+                        <input type="number" name="azucar" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="proteina" class="form-label">Proteína (g)</label>
+                        <input type="number" name="proteina" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El valor debe estar entre 0 y 999.99 gramos.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Seguimiento Nutricional{% endblock %}
+
+{% block content %}
+<script src="{{ url_for('static', filename='js/estadisticas/estadistica_general.js') }}"></script>
+
+<style>
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f4f7f6;
+  padding: 2rem 0;
+  font-family: Arial, sans-serif;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 1000px;
+  background: #10b981;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.bienvenida p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.bienvenida h1 {
+  margin: 0.2rem 0 0;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.perfil-usuario img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+
+/* Contenedor de cajas */
+.boxes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 90%;
+  max-width: 1000px;
+}
+
+/* Estilo común para cada caja */
+.box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Títulos dentro de las cajas */
+.box h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Párrafos y mensajes */
+.box p {
+  margin: 0 0 0.5rem;
+  color: #555;
+}
+
+
+.mensaje-error {
+  font-style: italic;
+  color: #e53935; 
+}
+
+#chart {
+  width: 100%;
+  height: 300px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+/* Estilos específicos por tipo de caja */
+.calorias-box {
+  border-left: 6px solid #FFC107;
+}
+
+.actividad-box {
+  border-left: 6px solid #2196F3;
+}
+
+.calorias-permitidas-box {
+  border-left: 6px solid #4CAF50;
+}
+.calorias-semana-box {
+  border-left: 6px solid #9C27B0;
+}
+
+/* Responsive: adaptar cajas en móvil */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+  .boxes {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+</style>
+<div class="content">
+  <!-- Header -->
+  <div class="header">
+    <div class="bienvenida">
+      <p>Hola, {{ nombre }} {{ apellido }}</p>
+      <h1>Tu Plan de Dieta Personalizado</h1>
+    </div>
+    <div class="perfil-usuario">
+      <img src="https://cdn-icons-png.flaticon.com/512/6073/6073873.png" alt="Icono de usuario"/>
+    </div>
+  </div>
+
+  <div class="boxes">
+    <!-- Gráfico -->
+    <div class="box">
+      <div id="chart" style="width: 600px; height: 400px"></div> 
+    </div>
+
+    <!-- Calorías Base -->
+    <div class="box calorias-box">
+      <h3>Calorías Base</h3>
+      {% if datos and datos.calorias_base is not none %}
+        <p>Tu caloría base diaria es <strong>{{ datos.calorias_base }} kcal</strong>.</p>
+        <p class="mensaje">¡Mantén este valor para alcanzar tus objetivos!</p>
+      {% else %}
+        <p class="mensaje-error">Aún no has configurado tu caloría base.</p>
+      {% endif %}
+    </div>
+
+    <!-- Nivel de actividad -->
+    <div class="box actividad-box">
+      <h3>Nivel de Actividad</h3>
+      {% if datos and datos.nivel_actividad %}
+        {% if datos.nivel_actividad == 1 %}
+          <p>Bajo</p>
+          <p class="mensaje">¡Un poco más de movimiento diaria te sentará de maravilla!</p>
+        {% elif datos.nivel_actividad == 2 %}
+          <p>Moderado</p>
+          <p class="mensaje">¡Sigue así para mantener tu forma física!</p>
+        {% elif datos.nivel_actividad == 3 %}
+          <p>Alto</p>
+          <p class="mensaje">¡Tu nivel de actividad es excelente, continúa así!</p>
+        {% endif %}
+      {% else %}
+        <p class="mensaje-error">No has definido tu nivel de actividad.</p>
+      {% endif %}
+    </div>
+
+    <!-- Calorías Permitidas -->
+    <div class="box calorias-permitidas-box">
+      <h3>Calorías Permitidas</h3>
+      {% if datos and datos.calorias_permitidas is not none %}
+        <p>Tienes permitidas <strong>{{ datos.calorias_permitidas }} kcal</strong> al día.</p>
+        {% if datos.calorias_permitidas > datos.calorias_base %}
+          <p class="mensaje">¡Estás en modo “subida” de masa o rendimiento!</p>
+        {% else %}
+          <p class="mensaje">¡Equilibra tu dieta para mantener un peso saludable!</p>
+        {% endif %}
+      {% else %}
+        <p class="mensaje-error">Configura tus calorías permitidas para mejorar tu plan.</p>
+      {% endif %}
+    </div>
+
+    <!-- Calorías Semana -->
+    <div id="calorias-semana" class="box calorias-semana-box">
+      <h3>Calorías Semana</h3>
+      <p>Cargando datos...</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% block content %}
+<div class="center">
+    <div class="container mt-4">
+        <div class="botones-arriba">
+            <a href="{{ url_for('platos') }}"
+            class="{% if request.endpoint == 'platos' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Platos
+         </a>
+         
+         <a href="{{ url_for('ingredientes') }}"
+            class="{% if request.endpoint == 'ingredientes' %}boton-activo{% else %}boton-inactivo{% endif %}">
+            Ingredientes
+         </a>
+         
+
+        </div>
+        <!-- Header -->
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Gestionar <b>platos</b></h2>
+                    </div>
+                    <div class="col-sm-6 text-end">
+                        <a href="#addEmployeeModal" class="btn btn-success" data-bs-toggle="modal">
+                            <i class="fa fa-plus"></i> <span>Añadir plato</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-12">
+                        <form class="d-flex" method="get" action="{{ url_for('platos') }}">
+                            <input class="form-control me-2" type="search" placeholder="Buscar" name="search" value="{{ search_query }}">
+                            <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Formulario para eliminar seleccionados -->
+            <form action="{{ url_for('delete_platos') }}" method="POST" id="deleteSelectedForm">
+                <a href="javascript:void(0);" id="deleteSelectedBtn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                    <i class="fa fa-trash"></i><span>Eliminar seleccionados</span>
+                </a>
+    
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll" onclick="checkAll(this)">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Ingredientes</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for plato in platos %}
+                            <tr>
+                                <td>
+                                    <span class="custom-checkbox">
+                                        <input type="checkbox" name="ids" value="{{ plato.id_plato }}" id="checkbox{{ loop.index }}">
+                                        <label for="checkbox{{ loop.index }}"></label>
+                                    </span>
+                                </td>
+                                <td>{{ plato.nombre }}</td>
+                                <td>{{ plato.tipo }}</td>
+                                <td>
+                                    {% for ingrediente in plato.ingredientes %}
+                                        <span class="badge bg-info">{{ ingrediente.nombre }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <a href="#editEmployeeModal{{ plato.id_plato }}" class="edit" data-bs-toggle="modal">
+                                        <i class="fa fa-edit" data-bs-toggle="tooltip" title="Editar"></i>
+                                    </a>
+                                    
+                                    <a href="#deleteEmployeeModal{{ plato.id_plato }}" class="delete" data-bs-toggle="modal">
+                                        <i class="fa fa-trash-alt" data-bs-toggle="tooltip" title="Eliminar"></i>
+                                    </a>
+                                    
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+    
+            <!-- Paginación -->
+            <div aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mt-4">
+                    {% if current_page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('platos', page=current_page - 1, search=search_query) }}">Anterior</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                    {% endif %}
+    
+                    {% for p in range(1, total_pages + 1) %}
+                        <li class="page-item {% if p == current_page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('platos', page=p, search=search_query) }}">{{ p }}</a>
+                        </li>
+                    {% endfor %}
+    
+                    {% if current_page < total_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('platos', page=current_page + 1, search=search_query) }}">Siguiente</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

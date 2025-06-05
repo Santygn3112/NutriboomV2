@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Seguimiento Nutricional{% endblock %}
+
+{% block content %}
+
+
+<link
+href="{{ url_for('static', filename='css/estadisticas.css') }}"
+rel="stylesheet"
+/>
+
+<div class="content">
+  <div class="header">
+    <div class="bienvenida">
+      <p>Hola, {{ nombre }}, {{ apellido }}</p>
+      <h1>Esta es tu dieta</h1>
+    </div>
+
+    <div class="perfil-usuario justify-center">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/6073/6073873.png"
+        alt="Perfil"
+      />
+    </div>
+  </div>
+
+  <div class="botones-arriba">
+    <a href="/estadistica/peso"
+       class="{{ 'boton-activo' if tipo == 'peso' else 'boton-inactivo' }}">
+       Peso
+    </a>
+    <a href="/estadistica/masa_muscular"
+       class="{{ 'boton-activo' if tipo == 'masa_muscular' else 'boton-inactivo' }}">
+       Masa Muscular
+    </a>
+    <a href="/estadistica/grasa_corporal"
+       class="{{ 'boton-activo' if tipo == 'grasa_corporal' else 'boton-inactivo' }}">
+       Grasa Corporal
+    </a>
+    <a href="/estadistica/imc"
+       class="{{ 'boton-activo' if tipo == 'imc' else 'boton-inactivo' }}">
+       IMC
+    </a>
+    <a href="/estadistica/calorias"
+       class="{{ 'boton-activo' if tipo == 'calorias' else 'boton-inactivo' }}">
+       Calorías
+    </a>
+  </div>
+
+  <div id="m-12" class="flex justify-center">
+    <div class="box">
+      <!-- Aquí se dibujará el gráfico -->
+      <div id="chart" style="width: 100%; height: 100%;"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Scripts específicos según el tipo de estadística -->
+{% if tipo == 'masa_muscular' %}
+  <script src="{{ url_for('static', filename='js/estadisticas/estadistica_masa_muscular.js') }}"></script>
+{% elif tipo == 'peso' %}
+  <script src="{{ url_for('static', filename='js/estadisticas/estadistica_peso.js') }}"></script>
+{% elif tipo == 'grasa_corporal' %}
+  <script src="{{ url_for('static', filename='js/estadisticas/estadistica_grasa_corporal.js') }}"></script>
+{% elif tipo == 'calorias' %}
+  <script src="{{ url_for('static', filename='js/estadisticas/estadistica_calorias.js') }}"></script>
+{% else %}
+  <script src="{{ url_for('static', filename='js/estadisticas/estadistica_imc.js') }}"></script>
+{% endif %}
+
+
+{% endblock %}

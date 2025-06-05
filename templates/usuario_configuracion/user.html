@@ -1,0 +1,11 @@
+{% extends "usuario_configuracion/base.html" %}
+{% block title %}User{% endblock %}
+{% block content %}
+<link href="{{ url_for('static', filename='css/authentication/registro.css') }}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='css/form.css') }}" rel="stylesheet" />
+
+{% include "usuario_configuracion/nav_user.html" %}
+
+
+
+{% endblock %}

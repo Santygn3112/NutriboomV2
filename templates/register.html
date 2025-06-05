@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Seguimiento Nutricional{% endblock %}
+{% block content %}
+<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet"/>
+
+<div class="content">
+  <div class="container-page" id="Container">
+    <div class="login-container" id="LoginContainer">
+
+      <h1 class="title">Registro</h1>
+
+      {# Mensaje de error (si existe) #}
+      {% if error %}
+        <div class="error-message alerta-error">
+          {{ error }}
+        </div>
+      {% endif %}
+
+      <form method="POST" action="/register">
+        <div class="input-line-container">
+          <span class="name-input">Nombre</span>
+          <input type="text" name="nombre" class="input-line" required>
+        </div>
+
+        <div class="input-line-container">
+          <span class="name-input">Primer Apellido</span>
+          <input type="text" name="apellido1" class="input-line">
+        </div>
+
+        <div class="input-line-container">
+          <span class="name-input">Segundo Apellido</span>
+          <input type="text" name="apellido2" class="input-line">
+        </div>
+        
+        <div class="input-line-container">
+          <span class="name-input">Correo Electrónico</span>
+          <input type="email" name="email" class="input-line" required>
+        </div>
+
+        <div class="input-line-container">
+          <span class="name-input">Contraseña</span>
+          <input type="password" name="contrasena" class="input-line" required>
+        </div>
+
+        <div class="input-line-container">
+          <span class="name-input">Confirmar Contraseña</span>
+          <input type="password" name="confirmar_contrasena" class="input-line" required>
+        </div>
+
+        <button type="submit" class="button-login">Registrarse</button>
+      </form>
+
+      <a href="{{ url_for('login') }}" class="button-second">Login</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!-- Modal Eliminar -->
+{% for plato in platos %}
+    <form method="POST" action="{{ url_for('delete_plato', id_plato=plato.id_plato) }}" class="modal fade" id="deleteEmployeeModal{{ plato.id_plato }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Plato</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro que deseas eliminar el plato?</p>
+                    <p class="text-warning"><small>Esta acción es irreversible</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endfor %}

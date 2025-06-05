@@ -1,0 +1,72 @@
+<!-- Modal Editar Plato -->
+{% for plato in platos %}
+    <div id="editEmployeeModal{{ plato.id_plato }}" class="modal fade" tabindex="-1" aria-labelledby="editEmployeeModalLabel{{ plato.id_plato }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ url_for('update_plato', id_plato=plato.id_plato) }}" class="needs-validation" novalidate 
+                      onsubmit="this.classList.add('was-validated'); return this.checkValidity();" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Plato: {{ plato.nombre }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Imagen Actual -->
+                        {% if plato.imagen_plato %}
+                        <div class="mb-3 text-center">
+                            <img src="{{ url_for('static', filename=plato.imagen_plato) }}" alt="Imagen del plato"
+                                 class="img-thumbnail" style="max-height: 150px;">
+                        </div>
+                        {% endif %}
+
+                        <!-- Reemplazar Imagen -->
+                        <div class="mb-3 text-center">
+                            <label for="imagen" class="form-label">Reemplazar Imagen (opcional)</label>
+                            <input type="file" name="imagen" class="form-control" accept="image/*">
+                            <div class="invalid-feedback">Por favor, selecciona una imagen para el plato.</div>
+                        </div>
+
+                        <!-- Nombre del Plato -->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre del Plato</label>
+                            <input type="text" name="nombre" class="form-control" value="{{ plato.nombre }}" required>
+                            <div class="invalid-feedback">El nombre es obligatorio.</div>
+                        </div>
+
+                        <!-- Tipo de Plato -->
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo de Plato</label>
+                            <select name="tipo" class="form-select" required>
+                                <option value="Desayuno" {% if plato.tipo == 'Desayuno' %}selected{% endif %}>Desayuno</option>
+                                <option value="Almuerzo" {% if plato.tipo == 'Almuerzo' %}selected{% endif %}>Almuerzo</option>
+                                <option value="Comida" {% if plato.tipo == 'Comida' %}selected{% endif %}>Comida</option>
+                                <option value="Merienda" {% if plato.tipo == 'Merienda' %}selected{% endif %}>Merienda</option>
+                                <option value="Cena" {% if plato.tipo == 'Cena' %}selected{% endif %}>Cena</option>
+                            </select>
+                            <div class="invalid-feedback">Selecciona un tipo de plato.</div>
+                        </div>
+
+                        <!-- Ingredientes -->
+                        <div class="mb-3">
+                            <label for="ingredientes" class="form-label">Ingredientes</label>
+                            <select name="ingredientes" class="form-select" multiple required>
+                                {% for ingrediente in ingredientes %}
+                                    <option value="{{ ingrediente.id_ingrediente }}"
+                                        {% if ingrediente in plato.ingredientes %}selected{% endif %}
+                                    >
+                                        {{ ingrediente.nombre }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">Seleccione al menos un ingrediente.</div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endfor %}

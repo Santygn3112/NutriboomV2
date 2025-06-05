@@ -1,0 +1,13 @@
+.centrarContenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  #barraDias {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    align-items: center;
+    margin-bottom: 4vh;
+  }

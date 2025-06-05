@@ -1,0 +1,58 @@
+<!-- Modal Añadir Plato -->
+<div id="addEmployeeModal" class="modal fade" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_plato') }}" class="needs-validation" novalidate 
+                  onsubmit="this.classList.add('was-validated'); return this.checkValidity();" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Añadir Plato</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Imagen del Plato -->
+                    <div class="mb-3 text-center">
+                        <label for="imagen" class="form-label">Imagen del Plato</label>
+                        <input type="file" name="imagen" class="form-control" accept="image/*" required>
+                        <div class="invalid-feedback">Por favor, selecciona una imagen para el plato.</div>
+                    </div>
+
+                    <!-- Nombre del Plato -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Plato</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                        <div class="invalid-feedback">El nombre es obligatorio.</div>
+                    </div>
+
+                    <!-- Tipo de Plato -->
+                    <div class="mb-3">
+                        <label for="tipo" class="form-label">Tipo de Plato</label>
+                        <select name="tipo" class="form-select" required>
+                            <option value="Desayuno">Desayuno</option>
+                            <option value="Almuerzo">Almuerzo</option>  
+                            <option value="Comida">Comida</option>  
+                            <option value="Merienda">Merienda</option>
+                            <option value="Cena">Cena</option>
+                        </select>
+                        <div class="invalid-feedback">Selecciona un tipo de plato.</div>
+                    </div>
+
+                    <!-- Ingredientes -->
+                    <div class="mb-3">
+                        <label for="ingredientes" class="form-label">Ingredientes</label>
+                        <select name="ingredientes" class="form-select" multiple required>
+                            {% for ingrediente in ingredientes %}
+                                <option value="{{ ingrediente.id_ingrediente }}">{{ ingrediente.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">Seleccione al menos un ingrediente.</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Añadir Plato</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

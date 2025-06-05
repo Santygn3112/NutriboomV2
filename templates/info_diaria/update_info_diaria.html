@@ -1,0 +1,41 @@
+<!-- Modal Editar Info Diaria -->
+{% for info in info_diaria %}
+<form action="{{ url_for('update_info_diaria', id_info_diaria=info.id_info_diaria) }}" method="POST" class="modal fade" id="editInfoModal{{ info.id_info_diaria }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Información Diaria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Campo para la fecha -->
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" name="fecha" class="form-control" value="{{ info.fecha.strftime('%Y-%m-%d') }}" required>
+                    <div class="invalid-feedback">Por favor, selecciona una fecha válida.</div>
+                </div>
+
+                <!-- Campo para el peso -->
+                <div class="mb-3">
+                    <label class="form-label">Peso (kg)</label>
+                    <input type="number" name="peso" class="form-control" step="0.01" min="0" max="999.99" value="{{ info.peso }}" required>
+                    <div class="invalid-feedback">El peso debe ser un valor válido.</div>
+                </div>
+
+                <!-- Campo para la grasa corporal -->
+                <div class="mb-3">
+                    <label class="form-label">Grasa Corporal (%)</label>
+                    <input type="number" name="grasa_corporal" class="form-control" step="0.01" min="0" max="100" value="{{ info.grasa_corporal }}" required>
+                    <div class="invalid-feedback">El porcentaje debe ser un valor entre 0 y 100.</div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-info">Guardar</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endfor %}

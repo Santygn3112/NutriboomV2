@@ -1,0 +1,39 @@
+<!-- Modal Añadir Información Diaria -->
+<div id="addInfoModal" class="modal fade" tabindex="-1" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_info_diaria') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addInfoModalLabel">Añadir Información Diaria</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Campo para la fecha -->
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" name="fecha" class="form-control" value="{{ today }}" required>
+                        <div class="invalid-feedback">Por favor, selecciona una fecha.</div>
+                    </div>
+
+                    <!-- Campo para el peso -->
+                    <div class="mb-3">
+                        <label for="peso" class="form-label">Peso (kg)</label>
+                        <input type="number" name="peso" class="form-control" step="0.01" min="0" max="999.99" required>
+                        <div class="invalid-feedback">El peso debe estar entre 0 y 999.99 kg.</div>
+                    </div>
+
+                    <!-- Campo para la grasa corporal -->
+                    <div class="mb-3">
+                        <label for="grasa_corporal" class="form-label">Grasa Corporal (%)</label>
+                        <input type="number" name="grasa_corporal" class="form-control" step="0.01" min="0" max="100" required>
+                        <div class="invalid-feedback">El porcentaje debe estar entre 0 y 100%.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
